@@ -1,9 +1,3 @@
-page('/', index);
-page('/about', about);
-page('/contact', contact);
-page('/contact/:contactName', contact);
-//page();
-
 function index() {
 	console.log('SLASH')
 	document.querySelector('p')

@@ -39,19 +39,41 @@ app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', function (req, res){
-    res.render('index.html');
+    res.render('index.ejs');
 });
 
 app.get('/createUser', function(req, res){
-		res.render('createUser.html')
+		res.render('createUser.ejs')
+})
+
+app.get('/user/:user_id', function(req, res){
+
+})
+
+app.get('/adventure/:adventure_id', function(req, res){
+
+})
+
+app.get('/userlist', function(req, res){
+		res.render('userList.ejs')
 })
 
 app.get('/api/users', function(req, res){
-
+	User.findAll().success(function(users){
+		//console.log(users);
+		res.send(users);
+	})
 });
 
 app.post('/api/users', function(req, res){
-	console.log(req.body);
+	User
+		.create({name: req.body.name, email: req.body.email, password: req.body.password, sex: req.body.sex})
+		.success(function(user, created){
+			if(user.values){
+				console.log(user.values)
+			}
+    	console.log(created)
+		})
 	res.redirect('/');
 })
 
