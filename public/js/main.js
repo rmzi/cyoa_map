@@ -16,8 +16,3 @@ function contact(ctx) {
 	  .textContent = 'viewing contact ' + (ctx.params.contactName || '');
 }
 
-$( "#createUser" ).submit(function( event ) {
-  console.log($( "#createUser" ).serializeArray());
-  alert( "Handler for .submit() called." );
-  event.preventDefault();
-});

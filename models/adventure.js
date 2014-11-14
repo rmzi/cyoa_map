@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 			instanceMethods: {
 			},
 			associate: function(models) {
-				Adventure.hasMany(Adventure_Nodes, {as: "Nodes"})
+				Adventure.hasMany(Locales, {as: "Locations"})
 			}
 		}
 	);

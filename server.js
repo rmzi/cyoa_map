@@ -28,6 +28,10 @@ sequelize
   })
 
 var User = sequelize.import(__dirname + "/models/user")
+var Locale = sequelize.import(__dirname + "/models/locale")
+var Picture = sequelize.import(__dirname + "/models/picture")
+var Review = sequelize.import(__dirname + "/models/review")
+var Adventure = sequelize.import(__dirname + "/models/adventure")
 
 var app = express();
 var oneDay = 86400000;
@@ -39,8 +43,16 @@ app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', function (req, res){
-    res.render('index.ejs');
+    res.render('login.ejs')
 });
+
+app.get('/home', function (req, res){
+		res.render('index.ejs');
+})
+
+app.get('/login', function (req, res){
+		res.render('login.ejs');
+})
 
 app.get('/createUser', function(req, res){
 		res.render('createUser.ejs')
@@ -50,12 +62,38 @@ app.get('/user/:user_id', function(req, res){
 
 })
 
+app.get('/testAdventure', function(req, res){
+	sequelize.query("SELECT * FROM locations").success(function(myTableRows) {
+  	console.log(myTableRows);
+  	res.send(myTableRows);
+	})
+})
+
+app.get('/oneAdventure', function(req, res){
+	sequelize.query("SELECT * FROM adventures LIMIT 1").success(function(myTableRows) {
+  	console.log(myTableRows);
+  	res.send(myTableRows);
+	})
+})
+
 app.get('/adventure/:adventure_id', function(req, res){
 
 })
 
 app.get('/userlist', function(req, res){
-		res.render('userList.ejs')
+	User.findAll().success(function(users){
+		res.render('userList.ejs', {users: users})
+	})
+})
+
+app.post('/api/login', function(req, res){
+	User.find({where: {email: req.body.email, password: req.body.password}}).success(function(user){
+		if(!user){
+			res.render('badLogin.ejs')
+		} else {
+			res.redirect('/home')
+		}
+	})
 })
 
 app.get('/api/users', function(req, res){
@@ -74,7 +112,7 @@ app.post('/api/users', function(req, res){
 			}
     	console.log(created)
 		})
-	res.redirect('/');
+	res.redirect('/home');
 })
 
 app.get('/sync', function(req, res){

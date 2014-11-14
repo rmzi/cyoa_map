@@ -18,9 +18,9 @@ module.exports = function(sequelize, DataTypes) {
 			instanceMethods: {
 			},
 			associate: function(models) {
-				//User.hasMany(models.Picture);
-				//User.hasMany(models.Review);
-				User.hasMany(models.User, {as : "friends"});
+				User.hasMany(models.Picture, {as: "Pictures"});
+				User.hasMany(models.Review, {as: "Reviews"});
+				User.hasMany(models.User, {as : "Friends"});
 			}
 		}
 	);
