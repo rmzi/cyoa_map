@@ -9,15 +9,25 @@
 
 var express = require("express")
 var mysql = require("mysql")
-var connection;
 
-connection = mysql.createConnection({
-  host: "cs4111.cuas5d9zztij.us-west-2.rds.amazonaws.com:3306",
-  user: "raa2148",
-  password: "columbiauni"
-});
+var Sequelize = require('sequelize')
+  , sequelize = new Sequelize('cs4111', 'raa2148', 'columbiauni', {
+      host: 'cs4111.cuas5d9zztij.us-west-2.rds.amazonaws.com',
+      dialect: "mysql", // or 'sqlite', 'postgres', 'mariadb'
+      port:    3306, // or 5432 (for postgres)
+    })
+ 
+sequelize
+  .authenticate()
+  .complete(function(err) {
+    if (!!err) {
+      console.log('Unable to connect to the database:', err)
+    } else {
+      console.log('Connection has been established successfully.')
+    }
+  })
 
-connection.connect();
+var User = sequelize.import(__dirname + "/models/user")
 
 var app = express();
 var oneDay = 86400000;
@@ -25,33 +35,40 @@ var oneDay = 86400000;
 app.use(express.compress());
 app.use(express.static(__dirname + '/public', {maxAge: oneDay}));
 app.use(express.bodyParser());
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
 
-app.get('/email', function(req, res){
-  //console.log(req.query)  
-  name = req.query['sv-cF-name']
-  dept = req.query['sv-cF-dept'][1]
-  company = req.query['sv-cF-company']
-  email = req.query['sv-cF-email']
-  message = req.query['sv-cF-message']
-
-  deal = {
-    to: "deals@scoutventures.com",
-    from: "email",
-    subject: dept + " - " + name + " - " + company,
-    text: message + "\n\nFrom: " + email,
-    html: "<p>" + message + "\n\nFrom: " + email + "</p>"
-  }
-
-  smtpTransport.sendMail(deal, function(error, response){
-    if(error){
-        console.log(error);
-    }else{
-        console.log("Message sent: " + response.message);
-    }
-  });
+app.get('/', function (req, res){
+    res.render('index.html');
 });
 
-var port = process.env.PORT || 80;
+app.get('/createUser', function(req, res){
+		res.render('createUser.html')
+})
+
+app.get('/api/users', function(req, res){
+
+});
+
+app.post('/api/users', function(req, res){
+	console.log(req.body);
+	res.redirect('/');
+})
+
+app.get('/sync', function(req, res){
+	sequelize
+  .sync({ force: true })
+  .complete(function(err) {
+     if (!!err) {
+       console.log('An error occurred while creating the table:', err)
+     } else {
+       console.log('It worked!')
+       res.send({msg:"sweet!"})
+     }
+  });
+})
+
+var port = process.env.PORT || 4200;
 
 app.listen(port, function() {
   console.log("Listening on " + port);

@@ -1,0 +1,32 @@
+.mydiv{
+	height:auto;border:#909090 1px solid;background:#fff;color:#333;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=3);/*ie*/
+	-moz-box-shadow: 2px 2px 10px #909090;/*firefox*/
+	-webkit-box-shadow: 2px 2px 10px #909090;/*safari»òchrome*/
+	box-shadow:2px 2px 10px #909090;/*opera»òie9*/
+}    
+    
+#menu, #menu li {
+	list-style:none; /* ½«Ä¬ÈÏµÄÁÐ±í·ûºÅÈ¥µô */
+	padding:1px; /* ½«Ä¬ÈÏµÄÄÚ±ß¾àÈ¥µô */
+	margin:8px; /* ½«Ä¬ÈÏµÄÍâ±ß¾àÈ¥µô */
+}   
+
+#menu li { 
+	float: left; /* Íù×ó¸¡¶¯ */
+}
+
+#menu li a {
+	width:80px; /* ÉèÖÃ¿í¶È */
+	height:50px; /* ÉèÖÃ¸ß¶È */
+	line-height:30px; /* ÉèÖÃÐÐ¸ß£¬½«ÐÐ¸ßºÍ¸ß¶ÈÉèÖÃÍ¬Ò»¸öÖµ£¬¿ÉÒÔÈÃµ¥ÐÐÎÄ±¾´¹Ö±¾ÓÖÐ */
+	text-align:center; /* ¾ÓÖÐ¶ÔÆëÎÄ×Ö */
+
+	color:#000; /* ÉèÖÃÎÄ×ÖÑÕÉ« */
+	text-decoration:none; /* È¥µôÏÂ»®Ïß */
+	/*border-right:1px solid #000;  ÔÚ×ó²à¼ÓÉÏ·Ö¸ôÏß */
+}
+
+.mapSlides { position: relative; overflow: auto; }
+    .mapSlides li { list-style: none; }
+        .mapSlides ul li { float: left; }

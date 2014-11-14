@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "ejs": "^1.0.0",
     "express": "3.3.4",
-    "mysql" : "*"
+    "mysql": "*",
+    "sequelize": "^2.0.0-rc2"
   }
 }
