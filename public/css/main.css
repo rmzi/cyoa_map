@@ -27,6 +27,14 @@
 	/*border-right:1px solid #000;  ÔÚ×ó²à¼ÓÉÏ·Ö¸ôÏß */
 }
 
+#navigation{
+	margin-bottom: 15px;
+}
+
+.header_title{
+	margin-left: 20px;
+}
+
 .mapSlides { position: relative; overflow: auto; }
     .mapSlides li { list-style: none; }
         .mapSlides ul li { float: left; }

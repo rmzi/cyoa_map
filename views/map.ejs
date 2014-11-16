@@ -22,37 +22,14 @@
 
        <div class="header">
 
-            <ul class="nav nav-pills pull-right" role="tablist">
+            <ul class="nav nav-pills pull-right" id="navigation" role="tablist">
               <li role="presentation" class="active"><a href="#">Home</a></li>
-              <li role="presentation"><a href="#">About</a></li>
-              <li role="presentation"><a href="#">Contact</a></li>
+              <li role="presentation"><a href="#">Users</a></li>
+              <li role="presentation"><a href="#">My Profile</a></li>
             </ul>
-
-            <div class="row">   
             	
-            	<h3 class="text-muted"> Choose Your Own Adventure - Maps</h3>
-
-            	<div class="col-md-6 col-md-push-4" style="position:absolute; top:5px">   
-            		<form class="form-inline" role="form">
-            		  <div class="form-group">
-            		    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-            		    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-            		  </div>
-            		  <div class="form-group">
-            		    <label class="sr-only" for="exampleInputPassword2">Password</label>
-            		    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-            		  </div>
-            		  <div class="checkbox">
-            		    <label>
-            		      <input type="checkbox"> Remember me
-            		    </label>
-            		  </div>
-            		  <button type="submit" class="btn btn-default">Sign in</button>
-            		</form>
-            	</div> 
+         	<h3 class="text-muted header_title"> Choose Your Own Adventure - Maps</h3>        	
                    
-            	
-            </div>            
       </div>
 
   <div id="map_canvas" style="width:100%; height:100%"></div>
@@ -62,7 +39,9 @@
       <div class="col-md-4  mydiv" style="width:350px; position:absolute; top:60px;background-color:#CCCCFF">
         <h3>Welcome User!</h3>
         <h4>How much would you like to spend?</h4>
+        <input type="text" placeholder="$X">
         <h4>How much time do you have?</h4>
+        <input type="text" placeholder="Y minutes">
 	
 	<div class="navbar-collapse">
       <form class="navbar-form navbar-left" role="search">
