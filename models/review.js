@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			associate: function(models) {
 				Review.belongsTo(User)
-				Review.belongsTO(Locale)
+				Review.belongsTo(Locale)
 			}
 		}
 	);

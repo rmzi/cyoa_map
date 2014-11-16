@@ -43,19 +43,19 @@ app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', function (req, res){
-    res.render('login.ejs')
+    res.render('index.ejs')
 });
-
-app.get('/home', function (req, res){
-		res.render('index.ejs');
-})
 
 app.get('/login', function (req, res){
 		res.render('login.ejs');
 })
 
-app.get('/createUser', function(req, res){
-		res.render('createUser.ejs')
+app.get('/signup', function (req, res){
+		res.render('signup.ejs');
+})
+
+app.get('/map', function (req, res){
+		res.render('map.ejs');
 })
 
 app.get('/user/:user_id', function(req, res){
@@ -76,9 +76,23 @@ app.get('/oneAdventure', function(req, res){
 	})
 })
 
-app.get('/adventure/:adventure_id', function(req, res){
+app.get('/api/adventures', function (req, res){
+	sequelize.query("SELECT * FROM adventures").success(function(myTableRows) {
+  	console.log(myTableRows);
+  	res.send(myTableRows);
+	})
+})
+
+app.post('/api/adventures', function (req, res){
 
 })
+
+app.get('/api/adventure/:adventure_id', function(req, res){
+	sequelize.query("SELECT * FROM locations WHERE l_id IN (1, 2, 3, 4, 5, 6)").success(function(myTableRows) {
+  	console.log(myTableRows);
+  	res.send(myTableRows);
+	})
+});
 
 app.get('/userlist', function(req, res){
 	User.findAll().success(function(users){
@@ -91,7 +105,7 @@ app.post('/api/login', function(req, res){
 		if(!user){
 			res.render('badLogin.ejs')
 		} else {
-			res.redirect('/home')
+			res.redirect('/map')
 		}
 	})
 })
@@ -112,7 +126,7 @@ app.post('/api/users', function(req, res){
 			}
     	console.log(created)
 		})
-	res.redirect('/home');
+	res.redirect('/map');
 })
 
 app.get('/sync', function(req, res){

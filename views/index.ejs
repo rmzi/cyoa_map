@@ -1,168 +1,131 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
- <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
-    <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
-	
-    <title>CYOA Maps</title> 
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Choose Your Own Adventure</title>
+
+    <!-- Bootstrap Core CSS -->
     <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
-    <link href="bootstrap-3.2.0-dist/css/font-awesome.min.css" rel="stylesheet"> 
-    <link href="bootstrap-3.2.0-dist/css/font-awesome-ie7.min.css" rel="stylesheet">     
-    <link href="css/main.css" rel="stylesheet"> 
 
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA31vNdOVCIbR7pqx5l5KZhgXDoSXgKedE&sensor=SET_TO_TRUE_OR_FALSE"></script>
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="js/page.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
-<body onLoad="initialize()">
 
-       <div class="header">
+<body>
 
-            <ul class="nav nav-pills pull-right" role="tablist">
-              <li role="presentation" class="active"><a href="#">Home</a></li>
-              <li role="presentation"><a href="#">About</a></li>
-              <li role="presentation"><a href="#">Contact</a></li>
-            </ul>
-
-            <div class="row">   
-            	
-            	<h3 class="text-muted"> Choose Your Own Adventure - Maps</h3>
-
-            	<div class="col-md-6 col-md-push-4" style="position:absolute; top:5px">   
-            		<form class="form-inline" role="form">
-            		  <div class="form-group">
-            		    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-            		    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-            		  </div>
-            		  <div class="form-group">
-            		    <label class="sr-only" for="exampleInputPassword2">Password</label>
-            		    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-            		  </div>
-            		  <div class="checkbox">
-            		    <label>
-            		      <input type="checkbox"> Remember me
-            		    </label>
-            		  </div>
-            		  <button type="submit" class="btn btn-default">Sign in</button>
-            		</form>
-            	</div> 
-                   
-            	
-            </div>            
-      </div>
-
-  <div id="map_canvas" style="width:100%; height:100%"></div>
-  
-<!--  jumbotron-->
-<div class="container-fluid">
-      <div class="col-md-4  mydiv" style="width:350px; position:absolute; top:60px;background-color:#CCCCFF">
-        <h3>CYOA -- Please Sign in</h3>
-	
-	<div class="navbar-collapse">
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">CYOA</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="login">Login</a>
+                    </li>
+                    <li>
+                        <a href="signup">Signup</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    </div>  
+        <!-- /.container -->
+    </nav>
 
-      
-      </div>
-<!-- ================================================================================================================= -->      
-     
-	      <div class="col-md-4  mydiv" style="width:350px; position:absolute; top:180px;background-color:#CCCCFF ">      
-			      <div class="col-md-4" style="width:350px">
-			         <ul id="menu" style="align:center">
-			           <li ><a href="#"><i class="icon-user"></i>&nbsp;Your</a></li>
-			           <li><a href="#about"><i class="icon-time"></i>&nbsp;Time</a></li>
-			           <li><a href="#contact"><i class="icon-money"></i>&nbsp;Money</a></li>
-			         </ul>
-			      </div>
+    <!-- Header -->
+    <div class="intro-header">
 
+        <div class="container">
 
-            <!--
-					<nav>
-					  <ul class="pager">
-					    <li class="previous"><a href="#" class="unslider-arrow prev"><i class="icon-angle-left"></i></a></li>
-					    <li class="next"><a href="#" class="unslider-arrow next"><i class="icon-angle-right"></i></a></li>
-					  </ul>
-					</nav>				      	
-				<div class="mapSlides">
-				    <ul>
-				        <li><img src="images/11.jpg" width="100" height="100" border="1" alt=""></li>
-				        <li><img src="images/22.jpg" width="100" height="100" border="1" alt=""></li>        
-				        <li><img src="images/33.jpg" width="100" height="100" border="1" alt=""></li>  
-				    </ul>
-				</div>
-            -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Choose Your Own Adventure</h1>
+                        <h3>Go on any adventure, now.</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="https://twitter.com/rmzi" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">@Rmzi</span></a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/rmzi/cyoa_map" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Check us out on Github</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <p id="description">The discription of the adventure</p>	
-	  	 
-	      </div>
-    
+        </div>
+        <!-- /.container -->
 
-	      <div class="col-md-4  mydiv" style="width:350px; position:absolute; top:450px;background-color:#CCCCFF ">    
+    </div>
+    <!-- /.intro-header -->
 
+    <!-- Page Content -->
 
- 				 <div class="col-md-4" style="width:300px">     		
-					 <form class="form-inline" role="form">
-						<div class="btn-group">
-						<input type="button" class="btn btn-info form-control" value="PushIt" onclick="PushIt()" />
-						<input type="button" class="btn btn-success form-control" value="Line" onclick="LineIt()"/>
-                        <input type="button" class="btn btn-success form-control" value="showAdventure" onclick="showAdventure()"/>
-						</div>					 
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#home"></a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#about"></a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#services"></a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="#contact"></a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Retrofuture 2014. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-						  <div id="latlong">
-						    <p>Latitude: <input size="20" type="text" id="latbox" name="lat" ></p>
-						    <p>Longitude: <input size="20" type="text" id="lngbox" name="lng" ></p>
-						  </div>   	  
-					  </form> 	 					    
-				 </div>    	  
-    	  
-    	  
-    	  </div>	
-      
-</div>      
+    <!-- jQuery -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
-
-    <script src="js/index.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
 
 </body>
 
-    <script src="bootstrap-3.2.0-dist/jQuery/jquery-1.7.2.min.js"></script>
-
-    <script src="bootstrap-3.2.0-dist/jQuery/unslider.js"></script>	
-    
-	<script type="text/javascript">
-    $(function() {
-        $('.mapSlides').unslider();
-    });
-
-    	$('.mapSlides').unslider({
-    		speed: 500,               //  滚动速度
-    		delay: 1000,              //  动画延迟
-    		complete: function() {},  //  动画完成的回调函数
-    		keys: true,               //  启动键盘导航
-    		dots: true,               //  显示点导航
-    		fluid: false              //  支持响应式设计
-    	});
-
-        var unslider = $('.mapSlides').unslider();
-
-        $('.unslider-arrow').click(function() {
-            var fn = this.className.split(' ')[1];
-
-            //  Either do unslider.data('unslider').next() or .prev() depending on the className
-            unslider.data('unslider')[fn]();
-        });
-        	
-    </script>
 </html>
-
-
-

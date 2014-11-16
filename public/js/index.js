@@ -130,6 +130,17 @@ function showAdventure(){
     });
 }
 
+function getAllAdventures(){
+    $.get( "api/adventures", function( data ) {
+      console.log(data);
+      adventures = data;
+
+      adventures.forEach(function(adventure){
+        $('#adventures').append("<p>" + adventure.a_name + "</p>");
+      })
+    });
+}
+
 function createAdventure(){
 
 }
