@@ -1,4 +1,4 @@
-.mydiv{
+.shadowed{
 	height:auto;border:#909090 1px solid;background:#fff;color:#333;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=3);/*ie*/
 	-moz-box-shadow: 2px 2px 10px #909090;/*firefox*/
@@ -34,6 +34,21 @@
 .header_title{
 	margin-left: 20px;
 }
+
+.userSidebar{
+	position: absolute;
+	display: block;
+	top: 400px;
+}
+
+.adventureSidebar{
+
+}
+
+.toolbar{
+
+}
+#
 
 .mapSlides { position: relative; overflow: auto; }
     .mapSlides li { list-style: none; }

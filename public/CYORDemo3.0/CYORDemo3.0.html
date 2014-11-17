@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Choose your own road</title>
+
+ <!-- Bootstrap stuff -->
+    <link href="bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
+    <link href="bootstrap-3.2.0-dist/css/font-awesome.min.css" rel="stylesheet"> 
+    <link href="bootstrap-3.2.0-dist/css/font-awesome-ie7.min.css" rel="stylesheet">
+<!-- Inside are extra links to have the style============================== -->    
+    <script src="bootstrap-3.2.0-dist/jQuery/jquery-1.9.1.min.js"></script>
+    <script src="bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>    
+    <script src="bootstrap-3.2.0-dist/js/npm.js"></script>     
+    <script src="bootstrap-3.2.0-dist/js/popover.js"></script>
+<script src="bootstrap-3.2.0-dist/js/tooltip.js"></script> 
+<!-- for the slider -->        
+
+    <script src="bootstrap-3.2.0-dist/jQuery/unslider2.js"></script>	    
+    
+<style type="text/css">
+
+/*style of the Pannel*/
+    
+/*style for the slides*/
+.mapSlides { position: relative; overflow: auto; min-height: 100px; }
+    .mapSlides li { list-style: none; }
+        .mapSlides ul li { float: left; }
+        	.mapSlides ul {margin:0; padding:0;}
+
+</style>  
+    
+    <style>
+      html, body, #map_canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAm1kgWCpF42vgOTj1l14PG-Ii699bSLMw">
+    </script>
+    <script>
+    
+//Prepare for the Route==========================================================================================    
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var myLatlng = new google.maps.LatLng(40.807702,-73.963050);
+  var mapOptions = {
+    zoom: 6,
+    center: myLatlng
+  }
+  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+  directionsDisplay.setMap(map);
+
+
+//====the following are to get the click's Lng and Lat
+  var image = 'bootstrap-3.2.0-dist/blogger.png';  
+  marker = new google.maps.Marker({
+    position: myLatlng,
+    map: map,
+   // icon: image,
+    title:"Property Location"
+  });
+
+  // establish the initial div form fields
+  formlat = document.getElementById("latbox").value = myLatlng.lat();
+  formlng = document.getElementById("lngbox").value = myLatlng.lng();
+
+  // close popup window
+  google.maps.event.addListener(map, 'click', function() {
+      infowindow.close();
+      });
+
+  // removing old markers/pins
+  google.maps.event.addListener(map, 'click', function(event) {
+      //call function to create marker
+       if (marker) {
+          marker.setMap(null);
+          marker = null;
+       }
+      /*
+       marker = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
+      */
+
+
+      var myLatLng = event.latLng ;
+
+      marker = new google.maps.Marker({   
+          position: myLatLng,
+          map: map,
+
+          title:"Property Location"
+      });
+
+      // populate the form fields with lat & lng 
+      formlat = document.getElementById("latbox").value = event.latLng.lat();
+      formlng = document.getElementById("lngbox").value = event.latLng.lng();
+          
+      //If you want each click push a point as node of line, we can use this code.
+
+
+  });//get the click's Lng and Lat ends
+  
+}// initialize ends here
+
+	function calcRoute() {//To line the markers along streets
+	  var start = document.getElementById('start').value;
+	  var end = document.getElementById('end').value;
+	  var waypts = [];
+	  var routeArray = document.getElementsByName('wayp');
+	  for (var i = 0; i < routeArray.length; i++) {
+	    if (routeArray[i].checked == true) {
+	      waypts.push({
+	          location:routeArray[i].value,
+	          stopover:true});
+	    }
+	  }
+	  var selectedMode = document.getElementById('modes').value;	
+	  var request = {
+			  
+	      origin: start,
+	      destination: end,
+	      waypoints: waypts,
+	      optimizeWaypoints: true,
+	      travelMode: google.maps.TravelMode[selectedMode]
+	  };
+	  
+	  directionsService.route(request, function(response, status) {
+	    if (status == google.maps.DirectionsStatus.OK) {
+	      directionsDisplay.setDirections(response);
+	      var route = response.routes[0];
+	      var summaryPanel = document.getElementById('directions_panel');
+	      summaryPanel.innerHTML = '';
+	      // For each route, display summary information.
+	      for (var i = 0; i < route.legs.length; i++) {
+	        var routeSegment = i + 1;
+	        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+	        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+	        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+	        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+	      }
+	    }
+	  });
+	}//calcroute ends
+
+
+//====the following are to get the click's Lng and Lat
+// global "map" variable
+var map = null;
+var marker = null;
+//======================================================================================================================================================================
+var info;
+var markers=[];
+
+// popup window for pin, if in use
+var infowindow = new google.maps.InfoWindow({ 
+    size: new google.maps.Size(150,50)
+    });
+
+// A function to create the marker and set up the event window function 
+function createMarker(latlng, name, html) {
+
+var contentString = html;
+
+var marker = new google.maps.Marker({
+    position: latlng,
+    map: map,
+    zIndex: Math.round(latlng.lat()*-100000)<<5
+    });
+
+google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(contentString); 
+    infowindow.open(map,marker);
+    });
+
+google.maps.event.trigger(marker, 'click');    
+return marker;
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+       <div class="header">
+        <ul class="nav nav-pills pull-right" role="tablist">
+          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation"><a href="#">About</a></li>
+          <li role="presentation"><a href="#">Contact</a></li>
+        </ul>
+<div class="row">   
+	<div class="col-md-4">
+	        <h3 class="text-muted"> Choose Ur Own Road</h3>
+	</div>
+	<div class="col-md-6 col-md-push-4" style="position:absolute; top:5px">   
+		<form class="form-inline" role="form">
+		  <div class="form-group">
+		    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+		    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only" for="exampleInputPassword2">Password</label>
+		    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+		  </div>
+		  <div class="checkbox">
+		    <label>
+		      <input type="checkbox"> Remember me
+		    </label>
+		  </div>
+		  <button type="submit" class="btn btn-default">Sign in</button>
+		</form>
+	</div> 
+</div>     
+      </div><!-- header ends here======================================================================== -->
+	
+    
+    <div id="map_canvas" style="float:right;width:100%;height:100%;"></div>
+    
+	 
+<div class="container-fluid" >   
+
+<div class="panel panel-info" style="position:absolute; top:60px; width:350px">
+  <div class="panel-heading">
+    <h3 class="panel-title">CYOR</h3>
+  </div>
+  <div class="navbar-collapse panel-body">
+	      <form class="navbar-form navbar-left" role="search" method="">
+	        <div class="form-group">
+	          <input type="text" class="form-control" placeholder="Search">
+	        </div>
+	        <button type="submit" class="btn btn-default">Search</button>
+	      </form>
+  </div>
+</div><!-- Search pannel ends======================================================================== ---->    
+
+
+<div class="panel panel-info" style="position:absolute; top:190px;width:350px">
+  <div class="panel-heading">
+<p align="center">
+<a  href="#"><i class="icon-user"></i>&nbsp;Your</a>
+<a  href="#about"><i class="icon-time"></i>&nbsp;Time</a>
+<a  href="#contact"><i class="icon-money"></i>&nbsp;Money</a>
+</p>
+  </div>
+  <div class="panel-body" style="position:relative; left:4px">
+    <div class="row" id="control_panel">
+<p>
+	    <b>Start:</b>
+		    <select id="start">
+		      <option value="New York, NY">New York, NY</option>
+		      <option value="Boston, MA">Boston, MA</option>
+		      <option value="Miami, FL">Miami, FL</option>
+		    </select>&nbsp;
+<button id="popover" type="button" class="btn btn-md btn-success" data-toggle="popover" title="Popover title" data-content="And here's content.">
+To toggle popover
+</button>		    
+</p><hr>
+		 
+
+		    <b>Waypoints:</b>
+		  <p>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox1" value="montreal, quebec" name="wayp">montreal
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" value="toronto, ont" name="wayp">chicago
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox3" value="philadelphia, PA" name="wayp">philadelphia
+</label>		
+<br>  <hr>	    
+ 
+		    <b>End:</b>
+		    <select id="end">
+		      <option value="(40.38002840251183,-76.83837890625)">Harrisburg</option>
+		      <option value="Seattle, WA">Seattle, WA</option>
+		      <option value="San Francisco, CA">San Francisco, CA</option>
+		      <option value="Los Angeles, CA">Los Angeles, CA</option>
+		    </select>
+<br><hr>
+
+	    <div id="directions_panel" style="margin:20px;background-color:#FFEE77;"></div>
+	 </div><!-- content pannel ends--> 
+	    
+	    <div id="panel" class="row">
+	    <b>Mode of Travel: </b>
+	    <select id="modes" onchange="calcRoute()">
+	      <option value="DRIVING">Driving</option>
+	      <option value="WALKING">Walking</option>
+	      <option value="BICYCLING">Bicycling</option>
+	      <option value="TRANSIT">Transit</option>
+	    </select>
+	    </div>  
+  </div>
+  
+  
+</div><!-- Search pannel ends======================================================================== ---->    
+ 
+<div class="panel panel-success col-md-3 col-md-push-9" style="position:absolute; top:530px">
+  <div class="panel-heading">
+    <h3 class="panel-title">The location</h3>
+  </div>
+  <div class="panel-body">
+						  <div id="latlong">
+						  <div class="input-group">
+						    <p>Latitude: <input class="form-control" size="20" type="text" id="latbox" name="lat" ></p>
+						  </div >
+						  <div class="input-group">  
+						    <p>Longitude: <input class="form-control" size="20" type="text" id="lngbox" name="lng" ></p>
+						  </div>  
+						  </div>   	  
+  </div>
+</div><!-- the pannel getting Lng and Lat ends here-======================================================================== --->
+
+</div><!-- all the body pannels end here======================================================================== -- -->
+  </body>
+
+<script type="text/javascript"> 
+//Scripts just for the popover
+$(function ()
+{ $("#popover").popover();
+});
+</script>
+  
+
+</html>
+
