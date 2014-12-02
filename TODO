@@ -1,0 +1,10 @@
+TODO
+
+1. Get Locations from Foursquare √
+1 1/2. Label Points with information about the location. √ / 2
+  - Pictures, Address, Reviews, etc 
+1 3/4. Give points costs 
+2. Create list of locations and costs in bootstrap table
+3. Save Locations in MySQL and add new Adventure with Adventure Nodes corresponding to Adventure / Location pairs
+4. Draw directions between each Location using user defined transportation method
+5. Animate sprite walking along path. 

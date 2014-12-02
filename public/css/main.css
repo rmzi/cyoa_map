@@ -36,19 +36,26 @@
 }
 
 .userSidebar{
-	position: absolute;
-	display: block;
-	top: 400px;
+	width:350px; 
+	position:absolute; 
+	top: 100px;
+	background-color:#CCCCFF;
 }
 
 .adventureSidebar{
-
+	width:350px; 
+	position:absolute; 
+	top:150px;
+	background-color:#CCCCFF;
 }
 
 .toolbar{
-
+	width:350px; 
+	position:absolute; 
+	top:450px;
+	background-color:#CCCCFF;
 }
-#
+
 
 .mapSlides { position: relative; overflow: auto; }
     .mapSlides li { list-style: none; }

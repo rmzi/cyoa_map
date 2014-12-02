@@ -36,6 +36,9 @@ var Adventure = sequelize.import(__dirname + "/models/adventure")
 var app = express();
 var oneDay = 86400000;
 
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
+
 app.use(express.compress());
 app.use(express.static(__dirname + '/public', {maxAge: oneDay}));
 app.use(express.bodyParser());
@@ -47,15 +50,16 @@ app.get('/', function (req, res){
 });
 
 app.get('/login', function (req, res){
-		res.render('login.ejs');
+	res.render('login.ejs');
 })
 
 app.get('/signup', function (req, res){
-		res.render('signup.ejs');
+	res.render('signup.ejs');
 })
 
-app.get('/map', function (req, res){
-		res.render('map.ejs');
+app.get('/maps', function (req, res){
+	user = req.session.user;
+	res.render('maps.ejs', user);
 })
 
 app.get('/user/:user_id', function(req, res){
@@ -83,8 +87,11 @@ app.get('/api/adventures', function (req, res){
 	})
 })
 
-app.post('/api/adventures', function (req, res){
-
+app.get('/api/adventures/time/:time/money/:money', function (req, res){
+	sequelize.query("SELECT * FROM adventures WHERE total_time_cost < '" + req.params.time + "' AND total_monetary_cost < " + req.params.money).success(function (myTableRows){
+		console.log(myTableRows);
+		res.send(myTableRows);
+	})
 })
 
 app.get('/api/adventure/:adventure_id', function(req, res){
@@ -96,16 +103,17 @@ app.get('/api/adventure/:adventure_id', function(req, res){
 
 app.get('/userlist', function(req, res){
 	User.findAll().success(function(users){
-		res.render('userList.ejs', {users: users})
+		res.render('userList.ejs', {users: users});
 	})
 })
 
 app.post('/api/login', function(req, res){
 	User.find({where: {email: req.body.email, password: req.body.password}}).success(function(user){
 		if(!user){
-			res.render('badLogin.ejs')
+			res.render('badLogin.ejs');
 		} else {
-			res.redirect('/map')
+			req.session.user = user;
+			res.redirect('/maps');
 		}
 	})
 })

@@ -1,21 +1,21 @@
 //<![CDATA[
 
-    // global "map" variable
-    var map = null;
-    var marker = null;
+// global "map" variable
+var map = null;
+var marker = null;
 //========================================================================
-    
-    var info;
-    var markers=[];
 
-  //========================================================================   
-    // popup window for pin, if in use
-    var infowindow = new google.maps.InfoWindow({ 
-        size: new google.maps.Size(150,50)
-        });
+var info;
+var markers=[];
 
-    // A function to create the marker and set up the event window function 
-    function createMarker(latlng, name, html) {
+//========================================================================   
+// popup window for pin, if in use
+var infowindow = new google.maps.InfoWindow({ 
+    size: new google.maps.Size(150,50)
+});
+
+// A function to create the marker and set up the event window function 
+function createMarker(latlng, name, html) {
 
     var contentString = html;
 
@@ -23,16 +23,16 @@
         position: latlng,
         map: map,
         zIndex: Math.round(latlng.lat()*-100000)<<5
-        });
+    });
 
     google.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(contentString); 
         infowindow.open(map,marker);
-        });
+    });
 
-    google.maps.event.trigger(marker, 'click');    
+    google.maps.event.trigger(marker, 'click');   
+
     return marker;
-
 }
 
 function initialize() {
@@ -143,6 +143,20 @@ function getAllAdventures(){
 
 function createAdventure(){
 
+}
+
+function queryAdventures(){
+    var time = $('#timeText').val()
+    var money = $('#moneyText').val()
+
+    $.get( "api/adventures/time/" + time + "/money/" + money, function( data ) {
+      console.log(data);
+      adventures = data;
+
+      adventures.forEach(function(adventure){
+        $('#results').append("<p>" + adventure.a_name + "</p>");
+      })
+    });
 }
 
 function PushIt(){
